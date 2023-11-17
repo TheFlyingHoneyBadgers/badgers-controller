@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'badgerscontroller'.
 //
-// Model version                  : 8.2
+// Model version                  : 8.3
 // Simulink Coder version         : 9.8 (R2022b) 13-May-2022
-// C/C++ source code generated on : Fri Nov 17 13:15:43 2023
+// C/C++ source code generated on : Fri Nov 17 13:32:45 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
@@ -201,8 +201,8 @@ struct P_badgerscontroller_T_ {
                               // Mask Parameter: PIDController_InitialConditionF
                                  //  Referenced by: '<S35>/Filter'
 
-  real_T PIDController_InitialConditio_a;
-                              // Mask Parameter: PIDController_InitialConditio_a
+  real_T PIDController_InitialConditio_k;
+                              // Mask Parameter: PIDController_InitialConditio_k
                                  //  Referenced by: '<S40>/Integrator'
 
   real_T PIDController_N;              // Mask Parameter: PIDController_N
@@ -226,7 +226,7 @@ struct P_badgerscontroller_T_ {
   SL_Bus_badgerscontroller_std_msgs_Float64 Constant_Value_f;// Computed Parameter: Constant_Value_f
                                                                 //  Referenced by: '<S4>/Constant'
 
-  real_T Constant_Value_n;             // Expression: 3
+  real_T Constant_Value_m;             // Expression: 3
                                           //  Referenced by: '<S5>/Constant'
 
 };

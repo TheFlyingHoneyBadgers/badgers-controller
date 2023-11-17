@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'badgerscontroller'.
 //
-// Model version                  : 8.2
+// Model version                  : 8.3
 // Simulink Coder version         : 9.8 (R2022b) 13-May-2022
-// C/C++ source code generated on : Fri Nov 17 13:15:43 2023
+// C/C++ source code generated on : Fri Nov 17 13:32:45 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
@@ -35,7 +35,7 @@ P_badgerscontroller_T badgerscontroller_P = {
 
   0.0,
 
-  // Mask Parameter: PIDController_InitialConditio_a
+  // Mask Parameter: PIDController_InitialConditio_k
   //  Referenced by: '<S40>/Integrator'
 
   0.0,
@@ -48,7 +48,7 @@ P_badgerscontroller_T badgerscontroller_P = {
   // Mask Parameter: PIDController_P
   //  Referenced by: '<S45>/Proportional Gain'
 
-  0.5,
+  2.5,
 
   // Computed Parameter: Constant_Value
   //  Referenced by: '<S1>/Constant'

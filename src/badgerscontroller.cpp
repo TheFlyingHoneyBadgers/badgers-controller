@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'badgerscontroller'.
 //
-// Model version                  : 8.2
+// Model version                  : 8.3
 // Simulink Coder version         : 9.8 (R2022b) 13-May-2022
-// C/C++ source code generated on : Fri Nov 17 13:15:43 2023
+// C/C++ source code generated on : Fri Nov 17 13:32:45 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
@@ -175,7 +175,7 @@ void badgerscontroller_step(void)
     //   SignalConversion generated from: '<Root>/Bus Selector1'
 
     rtb_Sum2 = badgerscontroller_B.In1.Data / badgerscontroller_B.In1_n.Data -
-      badgerscontroller_P.Constant_Value_n;
+      badgerscontroller_P.Constant_Value_m;
 
     // Gain: '<S45>/Proportional Gain'
     badgerscontroller_B.ProportionalGain = badgerscontroller_P.PIDController_P *
@@ -306,7 +306,7 @@ void badgerscontroller_initialize(void)
 
     // InitializeConditions for Integrator: '<S40>/Integrator'
     badgerscontroller_X.Integrator_CSTATE =
-      badgerscontroller_P.PIDController_InitialConditio_a;
+      badgerscontroller_P.PIDController_InitialConditio_k;
 
     // InitializeConditions for Integrator: '<S35>/Filter'
     badgerscontroller_X.Filter_CSTATE =

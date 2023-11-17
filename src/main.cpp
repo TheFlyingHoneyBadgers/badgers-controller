@@ -3,9 +3,9 @@
 //
 // Code generated for Simulink model 'badgerscontroller'.
 //
-// Model version                  : 8.2
+// Model version                  : 8.3
 // Simulink Coder version         : 9.8 (R2022b) 13-May-2022
-// C/C++ source code generated on : Fri Nov 17 13:15:47 2023
+// C/C++ source code generated on : Fri Nov 17 13:32:54 2023
 //
 
 #include <stdio.h>
