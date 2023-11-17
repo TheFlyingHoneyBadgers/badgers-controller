@@ -3,9 +3,9 @@
 //
 // Code generated for Simulink model 'badgerscontroller'.
 //
-// Model version                  : 8.0
-// Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
-// C/C++ source code generated on : Thu Nov 16 11:00:50 2023
+// Model version                  : 8.2
+// Simulink Coder version         : 9.8 (R2022b) 13-May-2022
+// C/C++ source code generated on : Fri Nov 17 13:15:47 2023
 //
 
 #ifndef _ROS_MATLAB_NODEINTERFACE_
@@ -87,7 +87,7 @@ namespace ros
       std::shared_ptr<ros::NodeHandle> mNode;
       Semaphore mBaseRateSem;
       std::shared_ptr<std::thread> mBaseRateThread;
-      std::shared_ptr<ros::WallTimer> mSchedulerTimer;
+      std::shared_ptr<std::thread> mSchedulerThread;
 
       //
       //
@@ -105,7 +105,7 @@ namespace ros
 
       //
       boolean_T getStopRequestedFlag(void);
-      void schedulerCallback(const ros::WallTimerEvent& ev);
+      void schedulerThread(void);
       void baseRateTask(void);
       std::shared_ptr<ros::NodeHandle> getNode()
       {

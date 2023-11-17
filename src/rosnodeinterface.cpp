@@ -3,9 +3,9 @@
 //
 // Code generated for Simulink model 'badgerscontroller'.
 //
-// Model version                  : 8.0
-// Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
-// C/C++ source code generated on : Thu Nov 16 11:00:50 2023
+// Model version                  : 8.2
+// Simulink Coder version         : 9.8 (R2022b) 13-May-2022
+// C/C++ source code generated on : Fri Nov 17 13:15:47 2023
 //
 
 #ifdef _MSC_VER
@@ -35,12 +35,6 @@
 #include <thread>
 #include <chrono>
 #include <utility>
-#ifndef RT_MEMORY_ALLOCATION_ERROR_DEF
-#define RT_MEMORY_ALLOCATION_ERROR_DEF
-
-const char *RT_MEMORY_ALLOCATION_ERROR = "memory allocation error";
-
-#endif
 
 namespace ros
 {
@@ -50,7 +44,7 @@ namespace ros
       : mNode()
       , mBaseRateSem()
       , mBaseRateThread()
-      , mSchedulerTimer()
+      , mSchedulerThread()
       , mStopSem()
       , mRunModel(true)
     {
@@ -75,11 +69,9 @@ namespace ros
         mBaseRateThread = std::make_shared<std::thread>(&NodeInterface::
           baseRateTask, this);
 
-        // create scheduler timer to run the scheduler callback
-        mSchedulerTimer = std::make_shared<ros::WallTimer>
-          (mNode->createWallTimer(ros::WallDuration(20000000000*1e-9),
-            boost::bind(&NodeInterface::schedulerCallback, this, _1)));
-        mSchedulerTimer->start();
+        // create scheduler thread
+        mSchedulerThread = std::make_shared<std::thread>(&NodeInterface::
+          schedulerThread, this);
       } catch (std::exception& ex) {
         std::cout << ex.what() << std::endl;
         throw ex;
@@ -117,9 +109,9 @@ namespace ros
         mBaseRateThread->join();
         mRunModel = false;
         mBaseRateThread.reset();
-        if (mSchedulerTimer.get()) {
-          mSchedulerTimer->stop();
-          mSchedulerTimer.reset();
+        if (mSchedulerThread.get()) {
+          mSchedulerThread->join();
+          mSchedulerThread.reset();
         }
 
         badgerscontroller_terminate();
@@ -130,9 +122,10 @@ namespace ros
     //
     // Scheduler Task using ROS Wall clock timer to run base-rate
     //
-    void NodeInterface::schedulerCallback(const ros::WallTimerEvent& ev)
+    void NodeInterface::schedulerThread(void)
     {
-      if (mRunModel) {
+      while (mRunModel) {
+        std::this_thread::sleep_for(std::chrono::nanoseconds(20000000000));
         mBaseRateSem.notify();
       }
     }
@@ -153,8 +146,7 @@ namespace ros
 
         if (!mRunModel)
           break;
-        badgerscontroller_step(
-          );
+        badgerscontroller_step();
         mRunModel = !NodeInterface::getStopRequestedFlag();
       }
 

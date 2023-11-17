@@ -1,29 +1,28 @@
-/*
- * badgerscontroller_types.h
- *
- * Academic License - for use in teaching, academic research, and meeting
- * course requirements at degree granting institutions only.  Not for
- * government, commercial, or other organizational use.
- *
- * Code generation for model "badgerscontroller".
- *
- * Model version              : 8.0
- * Simulink Coder version : 23.2 (R2023b) 01-Aug-2023
- * C++ source code generated on : Thu Nov 16 11:00:42 2023
- *
- * Target selection: ert.tlc
- * Note: GRT includes extra infrastructure and instrumentation for prototyping
- * Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
- * Code generation objectives: Unspecified
- * Validation result: Not run
- */
-
+//
+// Academic License - for use in teaching, academic research, and meeting
+// course requirements at degree granting institutions only.  Not for
+// government, commercial, or other organizational use.
+//
+// File: badgerscontroller_types.h
+//
+// Code generated for Simulink model 'badgerscontroller'.
+//
+// Model version                  : 8.2
+// Simulink Coder version         : 9.8 (R2022b) 13-May-2022
+// C/C++ source code generated on : Fri Nov 17 13:15:43 2023
+//
+// Target selection: ert.tlc
+// Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
+// Code generation objectives: Unspecified
+// Validation result: Not run
+//
 #ifndef RTW_HEADER_badgerscontroller_types_h_
 #define RTW_HEADER_badgerscontroller_types_h_
 #include "rtwtypes.h"
 #ifndef DEFINED_TYPEDEF_FOR_SL_Bus_badgerscontroller_std_msgs_Float64_
 #define DEFINED_TYPEDEF_FOR_SL_Bus_badgerscontroller_std_msgs_Float64_
 
+// MsgType=std_msgs/Float64
 struct SL_Bus_badgerscontroller_std_msgs_Float64
 {
   real_T Data;
@@ -41,7 +40,7 @@ struct ros_slroscpp_internal_block_P_T
   boolean_T isSetupComplete;
 };
 
-#endif                              /* struct_ros_slroscpp_internal_block_P_T */
+#endif                                // struct_ros_slroscpp_internal_block_P_T
 
 #ifndef struct_ros_slroscpp_internal_block_S_T
 #define struct_ros_slroscpp_internal_block_S_T
@@ -53,15 +52,18 @@ struct ros_slroscpp_internal_block_S_T
   boolean_T isSetupComplete;
 };
 
-#endif                              /* struct_ros_slroscpp_internal_block_S_T */
+#endif                                // struct_ros_slroscpp_internal_block_S_T
 
-/* Parameters for system: '<S3>/Enabled Subsystem' */
-typedef struct P_EnabledSubsystem_badgerscon_T_ P_EnabledSubsystem_badgerscon_T;
-
-/* Parameters (default storage) */
+// Parameters (default storage)
 typedef struct P_badgerscontroller_T_ P_badgerscontroller_T;
 
-/* Forward declaration for rtModel */
+// Forward declaration for rtModel
 typedef struct tag_RTM_badgerscontroller_T RT_MODEL_badgerscontroller_T;
 
-#endif                               /* RTW_HEADER_badgerscontroller_types_h_ */
+#endif                                 // RTW_HEADER_badgerscontroller_types_h_
+
+//
+// File trailer for generated code.
+//
+// [EOF]
+//

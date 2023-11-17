@@ -77,8 +77,9 @@ target_compile_options(badgerscontroller PUBLIC
   -DCLASSIC_INTERFACE=0
   -DALLOCATIONFCN=0
   -DTID01EQ=1
-  -DONESTEPFCN=1
   -DTERMFCN=1
+  -DONESTEPFCN=1
+  -DMAT_FILE=0
   -DMULTI_INSTANCE_CODE=0
   -DINTEGER_CODE=0
   -DMT=0
@@ -122,4 +123,4 @@ add_custom_command(
                    ARGS -E copy ${PROJECT_SOURCE_DIR}/src/${file_i} ${CATKIN_DEVEL_PREFIX}/badgerscontroller_ert_rtw/${file_i}
 				   )
 endforeach(file_i)
-# Generated on Thu Nov 16 11:00:52 2023
+# Generated on Fri Nov 17 13:15:48 2023

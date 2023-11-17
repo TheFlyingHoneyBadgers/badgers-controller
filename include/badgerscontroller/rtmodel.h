@@ -1,19 +1,28 @@
-/*
- * rtmodel.h
- *
- * Code generation for Simulink model "badgerscontroller".
- *
- * Simulink Coder version                : 23.2 (R2023b) 01-Aug-2023
- * C++ source code generated on : Thu Nov 16 11:00:42 2023
- *
- * Note that the generated code is not dependent on this header file.
- * The file is used in cojuction with the automatic build procedure.
- * It is included by the sample main executable harness
- * MATLAB/rtw/c/src/common/rt_main.c.
- *
- */
-
+//
+// Academic License - for use in teaching, academic research, and meeting
+// course requirements at degree granting institutions only.  Not for
+// government, commercial, or other organizational use.
+//
+// File: rtmodel.h
+//
+// Code generated for Simulink model 'badgerscontroller'.
+//
+// Model version                  : 8.2
+// Simulink Coder version         : 9.8 (R2022b) 13-May-2022
+// C/C++ source code generated on : Fri Nov 17 13:15:43 2023
+//
+// Target selection: ert.tlc
+// Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
+// Code generation objectives: Unspecified
+// Validation result: Not run
+//
 #ifndef RTW_HEADER_rtmodel_h_
 #define RTW_HEADER_rtmodel_h_
 #include "badgerscontroller.h"
-#endif                                 /* RTW_HEADER_rtmodel_h_ */
+#endif                                 // RTW_HEADER_rtmodel_h_
+
+//
+// File trailer for generated code.
+//
+// [EOF]
+//
