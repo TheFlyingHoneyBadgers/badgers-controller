@@ -61,6 +61,9 @@ add_executable(badgerscontroller
   src/badgerscontroller_data.cpp
   src/main.cpp
   src/rosnodeinterface.cpp
+  src/rtGetInf.cpp
+  src/rtGetNaN.cpp
+  src/rt_nonfinite.cpp
   src/slros_busmsg_conversion.cpp
   src/slros_initialize.cpp
 )
@@ -71,7 +74,7 @@ target_compile_options(badgerscontroller PUBLIC
   $<$<OR:$<COMPILE_LANGUAGE:CXX>,$<COMPILE_LANGUAGE:C>>:
   -DMODEL=badgerscontroller
   -DNUMST=2
-  -DNCSTATES=2
+  -DNCSTATES=4
   -DHAVESTDIO
   -DMODEL_HAS_DYNAMICALLY_LOADED_SFCNS=0
   -DCLASSIC_INTERFACE=0
@@ -123,4 +126,4 @@ add_custom_command(
                    ARGS -E copy ${PROJECT_SOURCE_DIR}/src/${file_i} ${CATKIN_DEVEL_PREFIX}/badgerscontroller_ert_rtw/${file_i}
 				   )
 endforeach(file_i)
-# Generated on Mon Nov 27 22:28:29 2023
+# Generated on Tue Nov 28 19:10:26 2023

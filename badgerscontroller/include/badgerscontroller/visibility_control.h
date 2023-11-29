@@ -28,5 +28,5 @@
   #define BADGERSCONTROLLER_PUBLIC_TYPE
 #endif
 #endif  // BADGERSCONTROLLER__VISIBILITY_CONTROL_H_
-// Generated 27-Nov-2023 22:28:29
+// Generated 28-Nov-2023 19:10:26
 // Copyright 2019-2020 The MathWorks, Inc.

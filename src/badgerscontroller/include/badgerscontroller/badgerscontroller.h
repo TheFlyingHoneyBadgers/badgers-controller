@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'badgerscontroller'.
 //
-// Model version                  : 8.3
+// Model version                  : 8.0
 // Simulink Coder version         : 9.8 (R2022b) 13-May-2022
-// C/C++ source code generated on : Mon Nov 27 22:28:20 2023
+// C/C++ source code generated on : Tue Nov 28 19:10:21 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
@@ -23,7 +23,23 @@
 #include "rtw_solver.h"
 #include "slros_initialize.h"
 #include "badgerscontroller_types.h"
+
+extern "C"
+{
+
+#include "rtGetInf.h"
+
+}
+
 #include <string.h>
+
+extern "C"
+{
+
+#include "rt_nonfinite.h"
+
+}
+
 #include <stddef.h>
 
 // Macros for accessing real-time model data structure
@@ -145,10 +161,16 @@
 
 // Block signals (default storage)
 struct B_badgerscontroller_T {
-  real_T ProportionalGain;             // '<S45>/Proportional Gain'
-  real_T DerivativeGain;               // '<S34>/Derivative Gain'
-  real_T FilterCoefficient;            // '<S43>/Filter Coefficient'
-  real_T IntegralGain;                 // '<S37>/Integral Gain'
+  real_T Data;
+  real_T Sum2;                         // '<S5>/Sum2'
+  real_T ProportionalGain;             // '<S46>/Proportional Gain'
+  real_T DerivativeGain;               // '<S35>/Derivative Gain'
+  real_T FilterCoefficient;            // '<S44>/Filter Coefficient'
+  real_T ProportionalGain_d;           // '<S94>/Proportional Gain'
+  real_T DerivativeGain_o;             // '<S83>/Derivative Gain'
+  real_T FilterCoefficient_f;          // '<S92>/Filter Coefficient'
+  real_T IntegralGain;                 // '<S38>/Integral Gain'
+  real_T IntegralGain_f;               // '<S86>/Integral Gain'
   SL_Bus_badgerscontroller_std_msgs_Float64 In1;// '<S7>/In1'
   SL_Bus_badgerscontroller_std_msgs_Float64 In1_n;// '<S6>/In1'
 };
@@ -162,20 +184,26 @@ struct DW_badgerscontroller_T {
 
 // Continuous states (default storage)
 struct X_badgerscontroller_T {
-  real_T Integrator_CSTATE;            // '<S40>/Integrator'
-  real_T Filter_CSTATE;                // '<S35>/Filter'
+  real_T Integrator_CSTATE;            // '<S41>/Integrator'
+  real_T Filter_CSTATE;                // '<S36>/Filter'
+  real_T Integrator_CSTATE_a;          // '<S89>/Integrator'
+  real_T Filter_CSTATE_o;              // '<S84>/Filter'
 };
 
 // State derivatives (default storage)
 struct XDot_badgerscontroller_T {
-  real_T Integrator_CSTATE;            // '<S40>/Integrator'
-  real_T Filter_CSTATE;                // '<S35>/Filter'
+  real_T Integrator_CSTATE;            // '<S41>/Integrator'
+  real_T Filter_CSTATE;                // '<S36>/Filter'
+  real_T Integrator_CSTATE_a;          // '<S89>/Integrator'
+  real_T Filter_CSTATE_o;              // '<S84>/Filter'
 };
 
 // State disabled
 struct XDis_badgerscontroller_T {
-  boolean_T Integrator_CSTATE;         // '<S40>/Integrator'
-  boolean_T Filter_CSTATE;             // '<S35>/Filter'
+  boolean_T Integrator_CSTATE;         // '<S41>/Integrator'
+  boolean_T Filter_CSTATE;             // '<S36>/Filter'
+  boolean_T Integrator_CSTATE_a;       // '<S89>/Integrator'
+  boolean_T Filter_CSTATE_o;           // '<S84>/Filter'
 };
 
 #ifndef ODE3_INTG
@@ -192,24 +220,44 @@ struct ODE3_IntgData {
 // Parameters (default storage)
 struct P_badgerscontroller_T_ {
   real_T PIDController_D;              // Mask Parameter: PIDController_D
-                                          //  Referenced by: '<S34>/Derivative Gain'
+                                          //  Referenced by: '<S35>/Derivative Gain'
+
+  real_T PIDController1_D;             // Mask Parameter: PIDController1_D
+                                          //  Referenced by: '<S83>/Derivative Gain'
 
   real_T PIDController_I;              // Mask Parameter: PIDController_I
-                                          //  Referenced by: '<S37>/Integral Gain'
+                                          //  Referenced by: '<S38>/Integral Gain'
+
+  real_T PIDController1_I;             // Mask Parameter: PIDController1_I
+                                          //  Referenced by: '<S86>/Integral Gain'
 
   real_T PIDController_InitialConditionF;
                               // Mask Parameter: PIDController_InitialConditionF
-                                 //  Referenced by: '<S35>/Filter'
+                                 //  Referenced by: '<S36>/Filter'
 
-  real_T PIDController_InitialConditio_k;
-                              // Mask Parameter: PIDController_InitialConditio_k
-                                 //  Referenced by: '<S40>/Integrator'
+  real_T PIDController1_InitialCondition;
+                              // Mask Parameter: PIDController1_InitialCondition
+                                 //  Referenced by: '<S84>/Filter'
+
+  real_T PIDController_InitialConditio_h;
+                              // Mask Parameter: PIDController_InitialConditio_h
+                                 //  Referenced by: '<S41>/Integrator'
+
+  real_T PIDController1_InitialConditi_d;
+                              // Mask Parameter: PIDController1_InitialConditi_d
+                                 //  Referenced by: '<S89>/Integrator'
 
   real_T PIDController_N;              // Mask Parameter: PIDController_N
-                                          //  Referenced by: '<S43>/Filter Coefficient'
+                                          //  Referenced by: '<S44>/Filter Coefficient'
+
+  real_T PIDController1_N;             // Mask Parameter: PIDController1_N
+                                          //  Referenced by: '<S92>/Filter Coefficient'
 
   real_T PIDController_P;              // Mask Parameter: PIDController_P
-                                          //  Referenced by: '<S45>/Proportional Gain'
+                                          //  Referenced by: '<S46>/Proportional Gain'
+
+  real_T PIDController1_P;             // Mask Parameter: PIDController1_P
+                                          //  Referenced by: '<S94>/Proportional Gain'
 
   SL_Bus_badgerscontroller_std_msgs_Float64 Constant_Value;// Computed Parameter: Constant_Value
                                                               //  Referenced by: '<S1>/Constant'
@@ -226,8 +274,26 @@ struct P_badgerscontroller_T_ {
   SL_Bus_badgerscontroller_std_msgs_Float64 Constant_Value_f;// Computed Parameter: Constant_Value_f
                                                                 //  Referenced by: '<S4>/Constant'
 
-  real_T Constant_Value_m;             // Expression: 3
+  real_T Switch_Threshold;             // Expression: 0
+                                          //  Referenced by: '<S5>/Switch'
+
+  real_T Saturation_UpperSat;          // Expression: 1.5
+                                          //  Referenced by: '<S5>/Saturation'
+
+  real_T Saturation_LowerSat;          // Expression: -5
+                                          //  Referenced by: '<S5>/Saturation'
+
+  real_T Constant2_Value;              // Expression: 0.01
+                                          //  Referenced by: '<S5>/Constant2'
+
+  real_T Constant_Value_l;             // Expression: 3
                                           //  Referenced by: '<S5>/Constant'
+
+  real_T Constant1_Value;              // Expression: -5
+                                          //  Referenced by: '<S5>/Constant1'
+
+  real_T Switch1_Threshold;            // Expression: 2.5
+                                          //  Referenced by: '<S5>/Switch1'
 
 };
 
@@ -243,8 +309,8 @@ struct tag_RTM_badgerscontroller_T {
   boolean_T zCCacheNeedsReset;
   boolean_T derivCacheNeedsReset;
   boolean_T CTOutputIncnstWithState;
-  real_T odeY[2];
-  real_T odeF[3][2];
+  real_T odeY[4];
+  real_T odeF[3][4];
   ODE3_IntgData intgData;
 
   //
@@ -379,54 +445,103 @@ extern volatile boolean_T runModel;
 //  '<S6>'   : 'badgerscontroller/Subscribe/Enabled Subsystem'
 //  '<S7>'   : 'badgerscontroller/Subscribe1/Enabled Subsystem'
 //  '<S8>'   : 'badgerscontroller/Subsystem/PID Controller'
-//  '<S9>'   : 'badgerscontroller/Subsystem/PID Controller/Anti-windup'
-//  '<S10>'  : 'badgerscontroller/Subsystem/PID Controller/D Gain'
-//  '<S11>'  : 'badgerscontroller/Subsystem/PID Controller/Filter'
-//  '<S12>'  : 'badgerscontroller/Subsystem/PID Controller/Filter ICs'
-//  '<S13>'  : 'badgerscontroller/Subsystem/PID Controller/I Gain'
-//  '<S14>'  : 'badgerscontroller/Subsystem/PID Controller/Ideal P Gain'
-//  '<S15>'  : 'badgerscontroller/Subsystem/PID Controller/Ideal P Gain Fdbk'
-//  '<S16>'  : 'badgerscontroller/Subsystem/PID Controller/Integrator'
-//  '<S17>'  : 'badgerscontroller/Subsystem/PID Controller/Integrator ICs'
-//  '<S18>'  : 'badgerscontroller/Subsystem/PID Controller/N Copy'
-//  '<S19>'  : 'badgerscontroller/Subsystem/PID Controller/N Gain'
-//  '<S20>'  : 'badgerscontroller/Subsystem/PID Controller/P Copy'
-//  '<S21>'  : 'badgerscontroller/Subsystem/PID Controller/Parallel P Gain'
-//  '<S22>'  : 'badgerscontroller/Subsystem/PID Controller/Reset Signal'
-//  '<S23>'  : 'badgerscontroller/Subsystem/PID Controller/Saturation'
-//  '<S24>'  : 'badgerscontroller/Subsystem/PID Controller/Saturation Fdbk'
-//  '<S25>'  : 'badgerscontroller/Subsystem/PID Controller/Sum'
-//  '<S26>'  : 'badgerscontroller/Subsystem/PID Controller/Sum Fdbk'
-//  '<S27>'  : 'badgerscontroller/Subsystem/PID Controller/Tracking Mode'
-//  '<S28>'  : 'badgerscontroller/Subsystem/PID Controller/Tracking Mode Sum'
-//  '<S29>'  : 'badgerscontroller/Subsystem/PID Controller/Tsamp - Integral'
-//  '<S30>'  : 'badgerscontroller/Subsystem/PID Controller/Tsamp - Ngain'
-//  '<S31>'  : 'badgerscontroller/Subsystem/PID Controller/postSat Signal'
-//  '<S32>'  : 'badgerscontroller/Subsystem/PID Controller/preSat Signal'
-//  '<S33>'  : 'badgerscontroller/Subsystem/PID Controller/Anti-windup/Passthrough'
-//  '<S34>'  : 'badgerscontroller/Subsystem/PID Controller/D Gain/Internal Parameters'
-//  '<S35>'  : 'badgerscontroller/Subsystem/PID Controller/Filter/Cont. Filter'
-//  '<S36>'  : 'badgerscontroller/Subsystem/PID Controller/Filter ICs/Internal IC - Filter'
-//  '<S37>'  : 'badgerscontroller/Subsystem/PID Controller/I Gain/Internal Parameters'
-//  '<S38>'  : 'badgerscontroller/Subsystem/PID Controller/Ideal P Gain/Passthrough'
-//  '<S39>'  : 'badgerscontroller/Subsystem/PID Controller/Ideal P Gain Fdbk/Disabled'
-//  '<S40>'  : 'badgerscontroller/Subsystem/PID Controller/Integrator/Continuous'
-//  '<S41>'  : 'badgerscontroller/Subsystem/PID Controller/Integrator ICs/Internal IC'
-//  '<S42>'  : 'badgerscontroller/Subsystem/PID Controller/N Copy/Disabled'
-//  '<S43>'  : 'badgerscontroller/Subsystem/PID Controller/N Gain/Internal Parameters'
-//  '<S44>'  : 'badgerscontroller/Subsystem/PID Controller/P Copy/Disabled'
-//  '<S45>'  : 'badgerscontroller/Subsystem/PID Controller/Parallel P Gain/Internal Parameters'
-//  '<S46>'  : 'badgerscontroller/Subsystem/PID Controller/Reset Signal/Disabled'
-//  '<S47>'  : 'badgerscontroller/Subsystem/PID Controller/Saturation/Passthrough'
-//  '<S48>'  : 'badgerscontroller/Subsystem/PID Controller/Saturation Fdbk/Disabled'
-//  '<S49>'  : 'badgerscontroller/Subsystem/PID Controller/Sum/Sum_PID'
-//  '<S50>'  : 'badgerscontroller/Subsystem/PID Controller/Sum Fdbk/Disabled'
-//  '<S51>'  : 'badgerscontroller/Subsystem/PID Controller/Tracking Mode/Disabled'
-//  '<S52>'  : 'badgerscontroller/Subsystem/PID Controller/Tracking Mode Sum/Passthrough'
-//  '<S53>'  : 'badgerscontroller/Subsystem/PID Controller/Tsamp - Integral/Passthrough'
-//  '<S54>'  : 'badgerscontroller/Subsystem/PID Controller/Tsamp - Ngain/Passthrough'
-//  '<S55>'  : 'badgerscontroller/Subsystem/PID Controller/postSat Signal/Forward_Path'
-//  '<S56>'  : 'badgerscontroller/Subsystem/PID Controller/preSat Signal/Forward_Path'
+//  '<S9>'   : 'badgerscontroller/Subsystem/PID Controller1'
+//  '<S10>'  : 'badgerscontroller/Subsystem/PID Controller/Anti-windup'
+//  '<S11>'  : 'badgerscontroller/Subsystem/PID Controller/D Gain'
+//  '<S12>'  : 'badgerscontroller/Subsystem/PID Controller/Filter'
+//  '<S13>'  : 'badgerscontroller/Subsystem/PID Controller/Filter ICs'
+//  '<S14>'  : 'badgerscontroller/Subsystem/PID Controller/I Gain'
+//  '<S15>'  : 'badgerscontroller/Subsystem/PID Controller/Ideal P Gain'
+//  '<S16>'  : 'badgerscontroller/Subsystem/PID Controller/Ideal P Gain Fdbk'
+//  '<S17>'  : 'badgerscontroller/Subsystem/PID Controller/Integrator'
+//  '<S18>'  : 'badgerscontroller/Subsystem/PID Controller/Integrator ICs'
+//  '<S19>'  : 'badgerscontroller/Subsystem/PID Controller/N Copy'
+//  '<S20>'  : 'badgerscontroller/Subsystem/PID Controller/N Gain'
+//  '<S21>'  : 'badgerscontroller/Subsystem/PID Controller/P Copy'
+//  '<S22>'  : 'badgerscontroller/Subsystem/PID Controller/Parallel P Gain'
+//  '<S23>'  : 'badgerscontroller/Subsystem/PID Controller/Reset Signal'
+//  '<S24>'  : 'badgerscontroller/Subsystem/PID Controller/Saturation'
+//  '<S25>'  : 'badgerscontroller/Subsystem/PID Controller/Saturation Fdbk'
+//  '<S26>'  : 'badgerscontroller/Subsystem/PID Controller/Sum'
+//  '<S27>'  : 'badgerscontroller/Subsystem/PID Controller/Sum Fdbk'
+//  '<S28>'  : 'badgerscontroller/Subsystem/PID Controller/Tracking Mode'
+//  '<S29>'  : 'badgerscontroller/Subsystem/PID Controller/Tracking Mode Sum'
+//  '<S30>'  : 'badgerscontroller/Subsystem/PID Controller/Tsamp - Integral'
+//  '<S31>'  : 'badgerscontroller/Subsystem/PID Controller/Tsamp - Ngain'
+//  '<S32>'  : 'badgerscontroller/Subsystem/PID Controller/postSat Signal'
+//  '<S33>'  : 'badgerscontroller/Subsystem/PID Controller/preSat Signal'
+//  '<S34>'  : 'badgerscontroller/Subsystem/PID Controller/Anti-windup/Passthrough'
+//  '<S35>'  : 'badgerscontroller/Subsystem/PID Controller/D Gain/Internal Parameters'
+//  '<S36>'  : 'badgerscontroller/Subsystem/PID Controller/Filter/Cont. Filter'
+//  '<S37>'  : 'badgerscontroller/Subsystem/PID Controller/Filter ICs/Internal IC - Filter'
+//  '<S38>'  : 'badgerscontroller/Subsystem/PID Controller/I Gain/Internal Parameters'
+//  '<S39>'  : 'badgerscontroller/Subsystem/PID Controller/Ideal P Gain/Passthrough'
+//  '<S40>'  : 'badgerscontroller/Subsystem/PID Controller/Ideal P Gain Fdbk/Disabled'
+//  '<S41>'  : 'badgerscontroller/Subsystem/PID Controller/Integrator/Continuous'
+//  '<S42>'  : 'badgerscontroller/Subsystem/PID Controller/Integrator ICs/Internal IC'
+//  '<S43>'  : 'badgerscontroller/Subsystem/PID Controller/N Copy/Disabled'
+//  '<S44>'  : 'badgerscontroller/Subsystem/PID Controller/N Gain/Internal Parameters'
+//  '<S45>'  : 'badgerscontroller/Subsystem/PID Controller/P Copy/Disabled'
+//  '<S46>'  : 'badgerscontroller/Subsystem/PID Controller/Parallel P Gain/Internal Parameters'
+//  '<S47>'  : 'badgerscontroller/Subsystem/PID Controller/Reset Signal/Disabled'
+//  '<S48>'  : 'badgerscontroller/Subsystem/PID Controller/Saturation/Passthrough'
+//  '<S49>'  : 'badgerscontroller/Subsystem/PID Controller/Saturation Fdbk/Disabled'
+//  '<S50>'  : 'badgerscontroller/Subsystem/PID Controller/Sum/Sum_PID'
+//  '<S51>'  : 'badgerscontroller/Subsystem/PID Controller/Sum Fdbk/Disabled'
+//  '<S52>'  : 'badgerscontroller/Subsystem/PID Controller/Tracking Mode/Disabled'
+//  '<S53>'  : 'badgerscontroller/Subsystem/PID Controller/Tracking Mode Sum/Passthrough'
+//  '<S54>'  : 'badgerscontroller/Subsystem/PID Controller/Tsamp - Integral/Passthrough'
+//  '<S55>'  : 'badgerscontroller/Subsystem/PID Controller/Tsamp - Ngain/Passthrough'
+//  '<S56>'  : 'badgerscontroller/Subsystem/PID Controller/postSat Signal/Forward_Path'
+//  '<S57>'  : 'badgerscontroller/Subsystem/PID Controller/preSat Signal/Forward_Path'
+//  '<S58>'  : 'badgerscontroller/Subsystem/PID Controller1/Anti-windup'
+//  '<S59>'  : 'badgerscontroller/Subsystem/PID Controller1/D Gain'
+//  '<S60>'  : 'badgerscontroller/Subsystem/PID Controller1/Filter'
+//  '<S61>'  : 'badgerscontroller/Subsystem/PID Controller1/Filter ICs'
+//  '<S62>'  : 'badgerscontroller/Subsystem/PID Controller1/I Gain'
+//  '<S63>'  : 'badgerscontroller/Subsystem/PID Controller1/Ideal P Gain'
+//  '<S64>'  : 'badgerscontroller/Subsystem/PID Controller1/Ideal P Gain Fdbk'
+//  '<S65>'  : 'badgerscontroller/Subsystem/PID Controller1/Integrator'
+//  '<S66>'  : 'badgerscontroller/Subsystem/PID Controller1/Integrator ICs'
+//  '<S67>'  : 'badgerscontroller/Subsystem/PID Controller1/N Copy'
+//  '<S68>'  : 'badgerscontroller/Subsystem/PID Controller1/N Gain'
+//  '<S69>'  : 'badgerscontroller/Subsystem/PID Controller1/P Copy'
+//  '<S70>'  : 'badgerscontroller/Subsystem/PID Controller1/Parallel P Gain'
+//  '<S71>'  : 'badgerscontroller/Subsystem/PID Controller1/Reset Signal'
+//  '<S72>'  : 'badgerscontroller/Subsystem/PID Controller1/Saturation'
+//  '<S73>'  : 'badgerscontroller/Subsystem/PID Controller1/Saturation Fdbk'
+//  '<S74>'  : 'badgerscontroller/Subsystem/PID Controller1/Sum'
+//  '<S75>'  : 'badgerscontroller/Subsystem/PID Controller1/Sum Fdbk'
+//  '<S76>'  : 'badgerscontroller/Subsystem/PID Controller1/Tracking Mode'
+//  '<S77>'  : 'badgerscontroller/Subsystem/PID Controller1/Tracking Mode Sum'
+//  '<S78>'  : 'badgerscontroller/Subsystem/PID Controller1/Tsamp - Integral'
+//  '<S79>'  : 'badgerscontroller/Subsystem/PID Controller1/Tsamp - Ngain'
+//  '<S80>'  : 'badgerscontroller/Subsystem/PID Controller1/postSat Signal'
+//  '<S81>'  : 'badgerscontroller/Subsystem/PID Controller1/preSat Signal'
+//  '<S82>'  : 'badgerscontroller/Subsystem/PID Controller1/Anti-windup/Passthrough'
+//  '<S83>'  : 'badgerscontroller/Subsystem/PID Controller1/D Gain/Internal Parameters'
+//  '<S84>'  : 'badgerscontroller/Subsystem/PID Controller1/Filter/Cont. Filter'
+//  '<S85>'  : 'badgerscontroller/Subsystem/PID Controller1/Filter ICs/Internal IC - Filter'
+//  '<S86>'  : 'badgerscontroller/Subsystem/PID Controller1/I Gain/Internal Parameters'
+//  '<S87>'  : 'badgerscontroller/Subsystem/PID Controller1/Ideal P Gain/Passthrough'
+//  '<S88>'  : 'badgerscontroller/Subsystem/PID Controller1/Ideal P Gain Fdbk/Disabled'
+//  '<S89>'  : 'badgerscontroller/Subsystem/PID Controller1/Integrator/Continuous'
+//  '<S90>'  : 'badgerscontroller/Subsystem/PID Controller1/Integrator ICs/Internal IC'
+//  '<S91>'  : 'badgerscontroller/Subsystem/PID Controller1/N Copy/Disabled'
+//  '<S92>'  : 'badgerscontroller/Subsystem/PID Controller1/N Gain/Internal Parameters'
+//  '<S93>'  : 'badgerscontroller/Subsystem/PID Controller1/P Copy/Disabled'
+//  '<S94>'  : 'badgerscontroller/Subsystem/PID Controller1/Parallel P Gain/Internal Parameters'
+//  '<S95>'  : 'badgerscontroller/Subsystem/PID Controller1/Reset Signal/Disabled'
+//  '<S96>'  : 'badgerscontroller/Subsystem/PID Controller1/Saturation/Passthrough'
+//  '<S97>'  : 'badgerscontroller/Subsystem/PID Controller1/Saturation Fdbk/Disabled'
+//  '<S98>'  : 'badgerscontroller/Subsystem/PID Controller1/Sum/Sum_PID'
+//  '<S99>'  : 'badgerscontroller/Subsystem/PID Controller1/Sum Fdbk/Disabled'
+//  '<S100>' : 'badgerscontroller/Subsystem/PID Controller1/Tracking Mode/Disabled'
+//  '<S101>' : 'badgerscontroller/Subsystem/PID Controller1/Tracking Mode Sum/Passthrough'
+//  '<S102>' : 'badgerscontroller/Subsystem/PID Controller1/Tsamp - Integral/Passthrough'
+//  '<S103>' : 'badgerscontroller/Subsystem/PID Controller1/Tsamp - Ngain/Passthrough'
+//  '<S104>' : 'badgerscontroller/Subsystem/PID Controller1/postSat Signal/Forward_Path'
+//  '<S105>' : 'badgerscontroller/Subsystem/PID Controller1/preSat Signal/Forward_Path'
 
 #endif                                 // RTW_HEADER_badgerscontroller_h_
 

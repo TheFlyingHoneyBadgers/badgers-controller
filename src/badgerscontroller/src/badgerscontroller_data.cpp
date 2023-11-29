@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'badgerscontroller'.
 //
-// Model version                  : 8.3
+// Model version                  : 8.0
 // Simulink Coder version         : 9.8 (R2022b) 13-May-2022
-// C/C++ source code generated on : Mon Nov 27 22:28:20 2023
+// C/C++ source code generated on : Tue Nov 28 19:10:21 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
@@ -21,34 +21,64 @@
 // Block parameters (default storage)
 P_badgerscontroller_T badgerscontroller_P = {
   // Mask Parameter: PIDController_D
-  //  Referenced by: '<S34>/Derivative Gain'
+  //  Referenced by: '<S35>/Derivative Gain'
+
+  0.0,
+
+  // Mask Parameter: PIDController1_D
+  //  Referenced by: '<S83>/Derivative Gain'
 
   0.0,
 
   // Mask Parameter: PIDController_I
-  //  Referenced by: '<S37>/Integral Gain'
+  //  Referenced by: '<S38>/Integral Gain'
+
+  0.0,
+
+  // Mask Parameter: PIDController1_I
+  //  Referenced by: '<S86>/Integral Gain'
 
   0.0,
 
   // Mask Parameter: PIDController_InitialConditionF
-  //  Referenced by: '<S35>/Filter'
+  //  Referenced by: '<S36>/Filter'
 
   0.0,
 
-  // Mask Parameter: PIDController_InitialConditio_k
-  //  Referenced by: '<S40>/Integrator'
+  // Mask Parameter: PIDController1_InitialCondition
+  //  Referenced by: '<S84>/Filter'
+
+  0.0,
+
+  // Mask Parameter: PIDController_InitialConditio_h
+  //  Referenced by: '<S41>/Integrator'
+
+  0.0,
+
+  // Mask Parameter: PIDController1_InitialConditi_d
+  //  Referenced by: '<S89>/Integrator'
 
   0.0,
 
   // Mask Parameter: PIDController_N
-  //  Referenced by: '<S43>/Filter Coefficient'
+  //  Referenced by: '<S44>/Filter Coefficient'
+
+  100.0,
+
+  // Mask Parameter: PIDController1_N
+  //  Referenced by: '<S92>/Filter Coefficient'
 
   100.0,
 
   // Mask Parameter: PIDController_P
-  //  Referenced by: '<S45>/Proportional Gain'
+  //  Referenced by: '<S46>/Proportional Gain'
 
-  2.5,
+  0.25,
+
+  // Mask Parameter: PIDController1_P
+  //  Referenced by: '<S94>/Proportional Gain'
+
+  1.75,
 
   // Computed Parameter: Constant_Value
   //  Referenced by: '<S1>/Constant'
@@ -85,10 +115,40 @@ P_badgerscontroller_T badgerscontroller_P = {
     0.0                                // Data
   },
 
+  // Expression: 0
+  //  Referenced by: '<S5>/Switch'
+
+  0.0,
+
+  // Expression: 1.5
+  //  Referenced by: '<S5>/Saturation'
+
+  1.5,
+
+  // Expression: -5
+  //  Referenced by: '<S5>/Saturation'
+
+  -5.0,
+
+  // Expression: 0.01
+  //  Referenced by: '<S5>/Constant2'
+
+  0.01,
+
   // Expression: 3
   //  Referenced by: '<S5>/Constant'
 
-  3.0
+  3.0,
+
+  // Expression: -5
+  //  Referenced by: '<S5>/Constant1'
+
+  -5.0,
+
+  // Expression: 2.5
+  //  Referenced by: '<S5>/Switch1'
+
+  2.5
 };
 
 //

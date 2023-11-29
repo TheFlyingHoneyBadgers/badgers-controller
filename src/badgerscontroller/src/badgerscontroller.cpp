@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'badgerscontroller'.
 //
-// Model version                  : 8.3
+// Model version                  : 8.0
 // Simulink Coder version         : 9.8 (R2022b) 13-May-2022
-// C/C++ source code generated on : Mon Nov 27 22:28:20 2023
+// C/C++ source code generated on : Tue Nov 28 19:10:21 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
@@ -17,6 +17,14 @@
 // Validation result: Not run
 //
 #include "badgerscontroller.h"
+
+extern "C"
+{
+
+#include "rt_nonfinite.h"
+
+}
+
 #include "rtwtypes.h"
 #include "badgerscontroller_types.h"
 #include "badgerscontroller_private.h"
@@ -65,7 +73,7 @@ static void rt_ertODEUpdateContinuousStates(RTWSolverInfo *si )
   real_T *f2 = id->f[2];
   real_T hB[3];
   int_T i;
-  int_T nXc = 2;
+  int_T nXc = 4;
   rtsiSetSimTimeStep(si,MINOR_TIME_STEP);
 
   // Save the state values at time t in y, we'll use x as ynew.
@@ -121,7 +129,7 @@ void badgerscontroller_step(void)
 {
   SL_Bus_badgerscontroller_std_msgs_Float64 b_varargout_2;
   SL_Bus_badgerscontroller_std_msgs_Float64 rtb_BusAssignment;
-  real_T rtb_Sum2;
+  real_T rtb_Switch;
   if (rtmIsMajorTimeStep(badgerscontroller_M)) {
     // set solver stop time
     rtsiSetSolverStopTime(&badgerscontroller_M->solverInfo,
@@ -153,6 +161,9 @@ void badgerscontroller_step(void)
     // End of Outputs for SubSystem: '<S4>/Enabled Subsystem'
     // End of Outputs for SubSystem: '<Root>/Subscribe1'
 
+    // SignalConversion generated from: '<Root>/Bus Selector1'
+    badgerscontroller_B.Data = badgerscontroller_B.In1.Data;
+
     // Outputs for Atomic SubSystem: '<Root>/Subscribe'
     // MATLABSystem: '<S3>/SourceBlock'
     b_varargout_1 = Sub_badgerscontroller_34.getLatestMessage(&b_varargout_2);
@@ -169,37 +180,97 @@ void badgerscontroller_step(void)
     // End of Outputs for SubSystem: '<S3>/Enabled Subsystem'
     // End of Outputs for SubSystem: '<Root>/Subscribe'
 
+    // MinMax: '<S5>/Max' incorporates:
+    //   Constant: '<S5>/Constant2'
+
+    if ((badgerscontroller_B.In1_n.Data >= badgerscontroller_P.Constant2_Value) ||
+        rtIsNaN(badgerscontroller_P.Constant2_Value)) {
+      rtb_Switch = badgerscontroller_B.In1_n.Data;
+    } else {
+      rtb_Switch = badgerscontroller_P.Constant2_Value;
+    }
+
     // Sum: '<S5>/Sum2' incorporates:
     //   Constant: '<S5>/Constant'
+    //   MinMax: '<S5>/Max'
     //   Product: '<S5>/Divide'
-    //   SignalConversion generated from: '<Root>/Bus Selector1'
 
-    rtb_Sum2 = badgerscontroller_B.In1.Data / badgerscontroller_B.In1_n.Data -
-      badgerscontroller_P.Constant_Value_m;
+    badgerscontroller_B.Sum2 = badgerscontroller_B.Data / rtb_Switch -
+      badgerscontroller_P.Constant_Value_l;
 
-    // Gain: '<S45>/Proportional Gain'
+    // Gain: '<S46>/Proportional Gain'
     badgerscontroller_B.ProportionalGain = badgerscontroller_P.PIDController_P *
-      rtb_Sum2;
+      badgerscontroller_B.Sum2;
 
-    // Gain: '<S34>/Derivative Gain'
+    // Gain: '<S35>/Derivative Gain'
     badgerscontroller_B.DerivativeGain = badgerscontroller_P.PIDController_D *
-      rtb_Sum2;
+      badgerscontroller_B.Sum2;
+
+    // Gain: '<S94>/Proportional Gain'
+    badgerscontroller_B.ProportionalGain_d =
+      badgerscontroller_P.PIDController1_P * badgerscontroller_B.Sum2;
+
+    // Gain: '<S83>/Derivative Gain'
+    badgerscontroller_B.DerivativeGain_o = badgerscontroller_P.PIDController1_D *
+      badgerscontroller_B.Sum2;
   }
 
-  // Gain: '<S43>/Filter Coefficient' incorporates:
-  //   Integrator: '<S35>/Filter'
-  //   Sum: '<S35>/SumD'
+  // Gain: '<S44>/Filter Coefficient' incorporates:
+  //   Integrator: '<S36>/Filter'
+  //   Sum: '<S36>/SumD'
 
   badgerscontroller_B.FilterCoefficient = (badgerscontroller_B.DerivativeGain -
     badgerscontroller_X.Filter_CSTATE) * badgerscontroller_P.PIDController_N;
 
-  // BusAssignment: '<Root>/Bus Assignment' incorporates:
-  //   Integrator: '<S40>/Integrator'
-  //   Sum: '<S49>/Sum'
+  // Gain: '<S92>/Filter Coefficient' incorporates:
+  //   Integrator: '<S84>/Filter'
+  //   Sum: '<S84>/SumD'
 
-  rtb_BusAssignment.Data = (badgerscontroller_B.ProportionalGain +
-    badgerscontroller_X.Integrator_CSTATE) +
-    badgerscontroller_B.FilterCoefficient;
+  badgerscontroller_B.FilterCoefficient_f =
+    (badgerscontroller_B.DerivativeGain_o - badgerscontroller_X.Filter_CSTATE_o)
+    * badgerscontroller_P.PIDController1_N;
+
+  // Switch: '<S5>/Switch1'
+  if (badgerscontroller_B.Data > badgerscontroller_P.Switch1_Threshold) {
+    // Switch: '<S5>/Switch' incorporates:
+    //   Integrator: '<S41>/Integrator'
+    //   Integrator: '<S89>/Integrator'
+    //   Sum: '<S50>/Sum'
+    //   Sum: '<S98>/Sum'
+
+    if (badgerscontroller_B.Sum2 > badgerscontroller_P.Switch_Threshold) {
+      rtb_Switch = (badgerscontroller_B.ProportionalGain +
+                    badgerscontroller_X.Integrator_CSTATE) +
+        badgerscontroller_B.FilterCoefficient;
+    } else {
+      rtb_Switch = (badgerscontroller_B.ProportionalGain_d +
+                    badgerscontroller_X.Integrator_CSTATE_a) +
+        badgerscontroller_B.FilterCoefficient_f;
+    }
+
+    // End of Switch: '<S5>/Switch'
+
+    // Saturate: '<S5>/Saturation'
+    if (rtb_Switch > badgerscontroller_P.Saturation_UpperSat) {
+      // BusAssignment: '<Root>/Bus Assignment'
+      rtb_BusAssignment.Data = badgerscontroller_P.Saturation_UpperSat;
+    } else if (rtb_Switch < badgerscontroller_P.Saturation_LowerSat) {
+      // BusAssignment: '<Root>/Bus Assignment'
+      rtb_BusAssignment.Data = badgerscontroller_P.Saturation_LowerSat;
+    } else {
+      // BusAssignment: '<Root>/Bus Assignment'
+      rtb_BusAssignment.Data = rtb_Switch;
+    }
+
+    // End of Saturate: '<S5>/Saturation'
+  } else {
+    // BusAssignment: '<Root>/Bus Assignment' incorporates:
+    //   Constant: '<S5>/Constant1'
+
+    rtb_BusAssignment.Data = badgerscontroller_P.Constant1_Value;
+  }
+
+  // End of Switch: '<S5>/Switch1'
 
   // Outputs for Atomic SubSystem: '<Root>/Publish'
   // MATLABSystem: '<S2>/SinkBlock'
@@ -207,9 +278,13 @@ void badgerscontroller_step(void)
 
   // End of Outputs for SubSystem: '<Root>/Publish'
   if (rtmIsMajorTimeStep(badgerscontroller_M)) {
-    // Gain: '<S37>/Integral Gain'
+    // Gain: '<S38>/Integral Gain'
     badgerscontroller_B.IntegralGain = badgerscontroller_P.PIDController_I *
-      rtb_Sum2;
+      badgerscontroller_B.Sum2;
+
+    // Gain: '<S86>/Integral Gain'
+    badgerscontroller_B.IntegralGain_f = badgerscontroller_P.PIDController1_I *
+      badgerscontroller_B.Sum2;
   }
 
   if (rtmIsMajorTimeStep(badgerscontroller_M)) {
@@ -243,17 +318,27 @@ void badgerscontroller_derivatives(void)
   XDot_badgerscontroller_T *_rtXdot;
   _rtXdot = ((XDot_badgerscontroller_T *) badgerscontroller_M->derivs);
 
-  // Derivatives for Integrator: '<S40>/Integrator'
+  // Derivatives for Integrator: '<S41>/Integrator'
   _rtXdot->Integrator_CSTATE = badgerscontroller_B.IntegralGain;
 
-  // Derivatives for Integrator: '<S35>/Filter'
+  // Derivatives for Integrator: '<S36>/Filter'
   _rtXdot->Filter_CSTATE = badgerscontroller_B.FilterCoefficient;
+
+  // Derivatives for Integrator: '<S89>/Integrator'
+  _rtXdot->Integrator_CSTATE_a = badgerscontroller_B.IntegralGain_f;
+
+  // Derivatives for Integrator: '<S84>/Filter'
+  _rtXdot->Filter_CSTATE_o = badgerscontroller_B.FilterCoefficient_f;
 }
 
 // Model initialize function
 void badgerscontroller_initialize(void)
 {
   // Registration code
+
+  // initialize non-finites
+  rt_InitInfAndNaN(sizeof(real_T));
+
   {
     // Setup solver object
     rtsiSetSimTimeStepPtr(&badgerscontroller_M->solverInfo,
@@ -304,13 +389,21 @@ void badgerscontroller_initialize(void)
     static const char_T tmp_1[10] = { '/', 'c', 'm', 'd', '_', 'a', 'c', 'c',
       'e', 'l' };
 
-    // InitializeConditions for Integrator: '<S40>/Integrator'
+    // InitializeConditions for Integrator: '<S41>/Integrator'
     badgerscontroller_X.Integrator_CSTATE =
-      badgerscontroller_P.PIDController_InitialConditio_k;
+      badgerscontroller_P.PIDController_InitialConditio_h;
 
-    // InitializeConditions for Integrator: '<S35>/Filter'
+    // InitializeConditions for Integrator: '<S36>/Filter'
     badgerscontroller_X.Filter_CSTATE =
       badgerscontroller_P.PIDController_InitialConditionF;
+
+    // InitializeConditions for Integrator: '<S89>/Integrator'
+    badgerscontroller_X.Integrator_CSTATE_a =
+      badgerscontroller_P.PIDController1_InitialConditi_d;
+
+    // InitializeConditions for Integrator: '<S84>/Filter'
+    badgerscontroller_X.Filter_CSTATE_o =
+      badgerscontroller_P.PIDController1_InitialCondition;
 
     // SystemInitialize for Atomic SubSystem: '<Root>/Subscribe1'
     // SystemInitialize for Enabled SubSystem: '<S4>/Enabled Subsystem'
